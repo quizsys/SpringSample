@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.0/css/bootstrap.min.css">
+	<title>掲示板</title>
+	<style>
+		.table-secondary {width:25%;}         /* ヘッダー部を25%、データ部を残り（75%）の幅にする */
+		form {display: inline;}               /* ボタンを横並びにする */
+	</style>
+</head>
+<body>
+	<h1>掲示板</h1>
+
+	<table class="table" border="1">
+	  <tr>
+    	  <th class="table-secondary">作成日</th>
+	      <td th:text="${formModel.createDate}"></td>
+	  </tr>
+	  <tr>
+	      <th class="table-secondary">タイトル</th>
+	      <td th:text="${formModel.title}"></td>
+	  </tr>
+	  <tr>
+	      <th class="table-secondary">内容</th>
+	      <td th:text="${formModel.content}" ></td>
+	  </tr>
+	  <tr>
+	      <th class="table-secondary">作成者</th>
+	      <td th:text="${formModel.createUser}"></td>
+	  </tr>
+	</table>
+
+	<form action="/">
+	    <input type="submit" class="btn btn-secondary" value="戻　る" />
+	</form>
+</body>
+</html>
