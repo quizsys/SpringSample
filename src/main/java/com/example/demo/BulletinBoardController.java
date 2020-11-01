@@ -73,6 +73,8 @@ public class BulletinBoardController {
     	BulletinBoardDto dto = bulletinBoardDao.findById(id);
         model.addAttribute("formModel", dto);
 
+        System.out.println("edit id: " + id);
+
         //編集画面に遷移する
         return "edit";
     }
