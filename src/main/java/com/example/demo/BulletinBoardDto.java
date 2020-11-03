@@ -22,7 +22,7 @@ public class BulletinBoardDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private LocalDate createDate;
+	private LocalDate updateDate;
 
 	private String title;
 
@@ -39,11 +39,11 @@ public class BulletinBoardDto {
 		this.id = id;
 	}
 
-	public LocalDate getCreateDate() {
-		return createDate;
+	public LocalDate getUpdateDate() {
+		return updateDate;
 	}
-	public void setCreateDate(LocalDate createDate) {
-		this.createDate = createDate;
+	public void setUpdateDate(LocalDate updateDate) {
+		this.updateDate = updateDate;
 	}
 	public String getTitle() {
 		return title;

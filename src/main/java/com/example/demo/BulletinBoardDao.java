@@ -15,7 +15,7 @@ public interface BulletinBoardDao extends JpaRepository<BulletinBoardDto, Intege
 	  /**
 	   * deleteFlgをキーに検索する
 	   */
-	  @Query(value = "select * from TB_Board where delete_flg = :delete_flg" , nativeQuery = true)
+	  @Query(value = "select * from TB_Board where delete_flg = :delete_flg order by update_date desc;" , nativeQuery = true)
 	  List<BulletinBoardDto> findByDeleteFlg(@Param("delete_flg") boolean deleteFlg);
 
 	  /**

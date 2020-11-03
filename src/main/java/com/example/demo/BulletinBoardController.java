@@ -39,7 +39,6 @@ public class BulletinBoardController {
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String todoDetail(@RequestParam("id") int id, Model model) {
 
-
     	//DBからキーを元に情報を取得しDtoに格納
     	BulletinBoardDto dto = bulletinBoardDao.findById(id);
         model.addAttribute("formModel", dto);
@@ -73,8 +72,6 @@ public class BulletinBoardController {
     	BulletinBoardDto dto = bulletinBoardDao.findById(id);
         model.addAttribute("formModel", dto);
 
-        System.out.println("edit id: " + id);
-
         //編集画面に遷移する
         return "edit";
     }
@@ -84,18 +81,16 @@ public class BulletinBoardController {
      *  更新処理
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(@ModelAttribute("formModel") BulletinBoardDto formModel) {
+	public String save(@ModelAttribute("formModel") BulletinBoardDto formModel, Model model) {
 
-    	//新規登録の場合（idが0の場合）のみ、作成日を入れる
-    	if(formModel.getId() == 0) {
-    		formModel.setCreateDate(LocalDate.now());
-    	}
+    	//更新日を格納
+		formModel.setUpdateDate(LocalDate.now());
 
     	//DB更新
     	BulletinBoardDto ret = bulletinBoardDao.save(formModel);
 
-    	//登録したIDを出力
-    	System.out.println("save id: " + ret.getId());
+    	//メッセージを追加
+        model.addAttribute("message", "id:" + ret.getId() + " 「" + ret.getTitle() + "」 を登録しました");
 
     	//トップページに遷移する
     	return "forward:/";
@@ -111,11 +106,8 @@ public class BulletinBoardController {
     	//DB更新
     	bulletinBoardDao.updateDeleteFlg(id, true);
 
-    	//更新したIDを出力
-    	System.out.println("delete id: " + id);
-
     	//メッセージを追加
-        model.addAttribute("message", "削除しました");
+        model.addAttribute("message", "id:" + id + " を削除しました");
 
     	//トップページに遷移する
     	return "forward:/";

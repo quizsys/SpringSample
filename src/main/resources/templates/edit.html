@@ -18,29 +18,29 @@
 		<input type="hidden" name="id" th:value="*{id}">
 		<table class="table" border="1">
 		  <tr>
-		      <th class="table-secondary">タイトル</th>
-		      <td>
-		        <input type="text" name="title" th:value="*{title}"  maxlength= "64" />
-		      </td>
+			  <th class="table-secondary">タイトル</th>
+			  <td>
+				<input type="text" name="title" th:value="*{title}"  maxlength="64" />
+			  </td>
 		  </tr>
 		  <tr>
-		      <th class="table-secondary">内容</th>
-		      <td>
-		        <textarea name="content" th:text="*{content}" maxlength="256"></textarea>
-		      </td>
+			  <th class="table-secondary">内容</th>
+			  <td>
+				<textarea name="content" th:text="*{content}" maxlength="256"></textarea>
+			  </td>
 		  </tr>
 		  <tr>
-		      <th class="table-secondary">作成者</th>
-		      <td>
-		        <input type="text" name="createUser" th:value="*{createUser}" maxlength= "32" />
-		      </td>
+			  <th class="table-secondary">作成者</th>
+			  <td>
+				<input type="text" name="createUser" th:value="*{createUser}" maxlength= "32" />
+			  </td>
 		  </tr>
 		</table>
 		<input type="submit" class="btn btn-primary" value="登　録" />
 	</form>
 
 	<form action="/">
-	    <input type="submit" class="btn btn-secondary" value="戻　る" />
+		<input type="submit" class="btn btn-secondary" value="戻　る" />
 	</form>
 </body>
 </html>
