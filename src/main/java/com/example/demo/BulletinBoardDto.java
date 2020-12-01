@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity                  /* エンティティクラス */
-@Table(name="TB_Board")  /* テーブル名を定義する */
+@Table(name="TB_Board2")  /* テーブル名を定義する */
 public class BulletinBoardDto {
 
 	/*
@@ -24,6 +24,8 @@ public class BulletinBoardDto {
 
 	private LocalDate updateDate;
 
+	private LocalDate createDate;
+
 	private String title;
 
 	private String content;
@@ -31,6 +33,19 @@ public class BulletinBoardDto {
 	private String createUser;
 
 	private boolean deleteFlg;
+
+
+//    @PrePersist
+//    public void onPrePersist() {
+//    	setCreateDate(LocalDate.now());
+//        setUpdateDate(LocalDate.now());
+//    }
+//
+//    @PreUpdate
+//    public void onPreUpdate() {
+//        setUpdateDate(LocalDate.now());
+//    }
+
 
 	public int getId() {
 		return id;
@@ -68,6 +83,12 @@ public class BulletinBoardDto {
 	}
 	public void setDeleteFlg(boolean deleteFlg) {
 		this.deleteFlg = deleteFlg;
+	}
+	public LocalDate getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(LocalDate createDate) {
+		this.createDate = createDate;
 	}
 
 }

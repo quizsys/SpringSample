@@ -3,6 +3,8 @@ package com.example.demo;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ public class BulletinBoardController {
     @Autowired
     BulletinBoardDao bulletinBoardDao;
 
+    @Autowired
+    HttpSession session;
 
     /**
      * 一覧を表示（トップページ）
@@ -31,6 +35,7 @@ public class BulletinBoardController {
         //トップページに遷移する
         return "list";
     }
+
 
 
     /**
@@ -83,14 +88,54 @@ public class BulletinBoardController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(@ModelAttribute("formModel") BulletinBoardDto formModel, Model model) {
 
+    	/* すぐ返すパターン
+    	//入力チェック
+    	if(formModel.getCreateUser().isEmpty()) {
+            model.addAttribute("errorMessage", "作成者は必須項目です");
+            return "/edit";
+    	}
+    	*/
+
+
+//    	String errorMEssage = "";
+//
+//    	//入力チェック
+//    	if(formModel.getCreateUser().isEmpty()) {
+//    		errorMEssage += "作成者は必須項目です。";
+//    	}
+//
+//    	//文字数チェック
+//    	if(formModel.getTitle().length() > 10) {
+//    		errorMEssage += "タイトルは10文字以内で入力してください。";
+//    	}
+//
+//    	//エラーが発生した場合、編集画面を再表示
+//    	if(!errorMEssage.isEmpty()) {
+//            model.addAttribute("errorMessage", errorMEssage);
+//            return "/edit";
+//    	}
+
+
+
     	//更新日を格納
+    	if(formModel.getId() == 0) {
+    		formModel.setCreateDate(LocalDate.now());
+    	} else {
+        	//取得
+        	BulletinBoardDto tmp = bulletinBoardDao.findById(formModel.getId());
+        	formModel.setCreateDate(tmp.getCreateDate());
+    	}
 		formModel.setUpdateDate(LocalDate.now());
+
 
     	//DB更新
     	BulletinBoardDto ret = bulletinBoardDao.save(formModel);
 
     	//メッセージを追加
         model.addAttribute("message", "id:" + ret.getId() + " 「" + ret.getTitle() + "」 を登録しました");
+//    	session.setAttribute("data", "id:" + ret.getId() + " 「" + ret.getTitle() + "」 を登録しました");
+//        sessionSample.setMsg("id:" + ret.getId() + " 「" + ret.getTitle() + "」 を登録しました");
+
 
     	//トップページに遷移する
     	return "forward:/";
@@ -113,4 +158,34 @@ public class BulletinBoardController {
     	return "forward:/";
 	}
 
+
+    /**
+     * 分岐表示
+     */
+    @RequestMapping(value = "/bunkiSelect")
+    public String bunkiSelect(Model model) {
+
+    	//トップページに遷移する
+    	return "bunkiSelect";
+    }
+
+
+
+    /**
+     * 分岐表示
+     */
+    @RequestMapping(value = "/bunki")
+    public String bunki(@RequestParam("flg") boolean flg, Model model) {
+
+    	session.setAttribute("flg", flg);
+
+    	//トップページに遷移する
+    	return "forward:/";
+    }
+
+
+    @RequestMapping("/init")
+    private String init() {
+        return "index";
+    }
 }

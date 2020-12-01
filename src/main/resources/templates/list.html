@@ -6,7 +6,7 @@
 	<title>掲示板</title>
 	<style>
 		.col_date {width: 15%;}  /* ヘッダー部の幅を調整 */
-		.col_title {width: 50%;} /* ヘッダー部の幅を調整 */
+		.col_title {width: 35%;} /* ヘッダー部の幅を調整 */
 		.col_user {width: 20%;}  /* ヘッダー部の幅を調整 */
 		.col_btn {width: 5%;}    /* ヘッダー部の幅を調整 */
 		.msg-label {color: red}  /* メッセージラベルの色を設定 */
@@ -19,6 +19,7 @@
 
 	<table class="table" border="1">
 		<tr class="thead-dark">
+			<th class="col_date">作成日</th>
 			<th class="col_date">更新日</th>
 			<th class="col_title">タイトル</th>
 			<th class="col_user">作成者</th>
@@ -27,6 +28,7 @@
 			<th class="col_btn"></th>
 		</tr>
 		<tr th:each="dto : ${list}">
+			<td th:text="${dto.createDate}"></td>
 			<td th:text="${dto.updateDate}"></td>
 			<td th:text="${dto.title}"></td>
 			<td th:text="${dto.createUser}"></td>
@@ -51,8 +53,15 @@
 		</tr>
 	</table>
 
-	<form th:action="@{/add}">
+	<form th:action="@{/add}" method="GET">
 		<input type="submit"  class="btn btn-primary" value="新規追加" />
+
+	<span th:switch="${session.flg}">
+  		<input type="submit" th:case="true" class="btn btn-primary" value="TRUE" />
+ 		<input type="submit" th:case="false"  class="btn btn-secondary" value="FALSE" />
+ 		<input type="submit" th:case="*"  class="btn btn-secondary" value="対象無し" />
+	</span>
+
 	</form>
 </body>
 </html>

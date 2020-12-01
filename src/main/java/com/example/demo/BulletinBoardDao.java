@@ -15,13 +15,13 @@ public interface BulletinBoardDao extends JpaRepository<BulletinBoardDto, Intege
 	  /**
 	   * deleteFlgをキーに検索する
 	   */
-	  @Query(value = "select * from TB_Board where delete_flg = :delete_flg order by update_date desc;" , nativeQuery = true)
+	  @Query(value = "select * from TB_Board2 where delete_flg = :delete_flg order by update_date desc;" , nativeQuery = true)
 	  List<BulletinBoardDto> findByDeleteFlg(@Param("delete_flg") boolean deleteFlg);
 
 	  /**
 	   * idをキーに検索する
 	   */
-	  @Query(value = "select * from TB_Board where id = :id" , nativeQuery = true)
+	  @Query(value = "select * from TB_Board2 where id = :id" , nativeQuery = true)
 	  BulletinBoardDto findById(@Param("id") int id);
 
 	  /**
@@ -30,7 +30,7 @@ public interface BulletinBoardDao extends JpaRepository<BulletinBoardDto, Intege
 	   */
 	  @Modifying
 	  @Transactional
-	  @Query(value = "update TB_Board set delete_flg = :delete_flg where id = :id" , nativeQuery = true)
+	  @Query(value = "update TB_Board2 set delete_flg = :delete_flg where id = :id" , nativeQuery = true)
 	  void updateDeleteFlg(@Param("id") int id, @Param("delete_flg") boolean deleteFlg);
 
 }
