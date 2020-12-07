@@ -39,63 +39,92 @@ public class BulletinBoardControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build(); // MockMvcのセットアップ
     }
 
-    /* ここから下がテストクラス */
+
+    /********* ここから下がテストケース ************************/
 
     @Test
-    public void test() throws Exception {
+    public void TC1_トップページアクセス時にlistが返却されること() throws Exception {
 
-        this.mockMvc.perform(get("/init")) // @GetMapping("/item/{itemId}")のメソッドの実行と結果確認
-                .andExpect(status().isOk()); // 以下、結果確認
+    	// STEP1(given): 条件を設定する
+    	// ダミーのlistを作成
+    	List<BulletinBoardDto> list = findByDeleteFlgTrue();
+    	// bulletinBoardDao.findByDeleteFlg(true)実行時にダミーの結果が返ることを定義
+        when(bulletinBoardDao.findByDeleteFlg(true)).thenReturn(list);
 
-    }
+        // STEP2(when): 試験実施
+        this.mockMvc.perform(
+        	    // @RequestMapping("/")のメソッドの実行
+        			get("/")
+        		)
 
-    @Test
-    public void test2() throws Exception {
-
-        when(bulletinBoardDao.findByDeleteFlg(true)).thenReturn(findByDeleteFlgTrue()); // itemService.findByItemId(1)実行時にgetItemIdOfItemId1()の結果が返ることを定義
-        this.mockMvc.perform(get("/")) // @GetMapping("/item/{itemId}")のメソッドの実行と結果確認
+        //　STEP3(then): 試験結果確認
                 // HTTP ステータスコードをテスト
                 .andExpect(status().isOk())
                 // ビュー名をテスト
                 .andExpect(view().name("list"))
                 // モデルの属性をテスト
-                .andExpect(model().attribute("list", findByDeleteFlgTrue()));
+                .andExpect(model().attribute("list", list));
 
     }
 
-
-  /*  @Test
-    public void test3() throws Exception {
-
-    	BulletinBoardDto dto = findById1();
-
-        when(bulletinBoardDao.findById(1)).thenReturn(dto); // itemService.findByItemId(1)実行時にgetItemIdOfItemId1()の結果が返ることを定義
-        this.mockMvc.perform(get("/show1").param("id", "1")) // @GetMapping("/item/{itemId}")のメソッドの実行と結果確認
-                // HTTP ステータスコードをテスト
-                .andExpect(status().isOk())
-                // ビュー名をテスト
-                .andExpect(view().name("show"))
-                // モデルの属性をテスト
-                .andExpect(model().attribute("formModel", dto));
-    }
-*/
     @Test
-    public void test4() throws Exception {
+    public void TC2_更新処理が正常に実施されること() throws Exception {
 
+    	// STEP1(given): 条件を設定する
+    	// ダミーのdtoを作成
     	BulletinBoardDto dto = findById1();
+    	// bulletinBoardDao.save()実行時にダミーの結果が返ることを定義
+        when(bulletinBoardDao.save(any(BulletinBoardDto.class))).thenReturn(dto);
+        // bulletinBoardDao.findById(1)実行時にダミーの結果が返ることを定義
+        when(bulletinBoardDao.findById(1)).thenReturn(dto);
 
-        when(bulletinBoardDao.save(any(BulletinBoardDto.class))).thenReturn(dto); // itemService.findByItemId(1)実行時にgetItemIdOfItemId1()の結果が返ることを定義
-        when(bulletinBoardDao.findById(1)).thenReturn(dto); // itemService.findByItemId(1)実行時にgetItemIdOfItemId1()の結果が返ることを定義
-        this.mockMvc.perform(post("/save").param("id", "1").param("title", "title").param("contents", "contents")) // @GetMapping("/item/{itemId}")のメソッドの実行と結果確認
+        // STEP2(when): 試験実施
+        this.mockMvc.perform(
+        	    	// @RequestMapping("/save")のメソッドの実行
+	        		post("/save")
+	        		// リクエストパラメータを設定
+	        		.param("id", "1")
+	        		.param("title", "title")
+	        		.param("contents", "contents")
+        		)
+
+        //　STEP3(then): 試験結果確認
                 // HTTP ステータスコードをテスト
                 .andExpect(status().isOk())
                 // ビュー名をテスト
-                .andExpect(view().name("forward:/"));
+                .andExpect(view().name("forward:/"))
                 // モデルの属性をテスト
-//                .andExpect(model().attribute("formModel", dto));
+                .andExpect(model().attribute("message", "id:1 「title」 を登録しました"));
     }
 
-    /* ここから下が試験用のDaoの動作定義 */
+
+    @Test
+    public void TC3_タイトル未入力時に入力必須項目のエラーが出て編集画面に遷移すること() throws Exception {
+
+    	// STEP1(given): 条件を設定する
+    	// なし
+
+        // STEP2(when): 試験実施
+        this.mockMvc.perform(
+        	    	// @RequestMapping("/save")のメソッドの実行
+	        		post("/save")
+	        		// リクエストパラメータを設定
+	        		.param("id", "1")
+	        		.param("title", "")  //titleを空文字で設定
+        		)
+
+        //　STEP3(then): 試験結果確認
+                // HTTP ステータスコードをテスト
+                .andExpect(status().isOk())
+                // ビュー名をテスト
+                .andExpect(view().name("/edit"))
+                // モデルの属性をテスト
+                .andExpect(model().attribute("errorMessage", "タイトルは必須項目です"));
+    }
+
+
+
+    /********* ここから下が試験用のDaoの動作定義 ************************/
 
     //daoの差し替えメソッドを定義
 	private List<BulletinBoardDto> findByDeleteFlgTrue() {

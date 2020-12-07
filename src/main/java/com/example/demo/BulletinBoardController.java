@@ -88,34 +88,11 @@ public class BulletinBoardController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(@ModelAttribute("formModel") BulletinBoardDto formModel, Model model) {
 
-    	/* すぐ返すパターン
     	//入力チェック
-    	if(formModel.getCreateUser().isEmpty()) {
-            model.addAttribute("errorMessage", "作成者は必須項目です");
+    	if(formModel.getTitle().isEmpty()) {
+            model.addAttribute("errorMessage", "タイトルは必須項目です");
             return "/edit";
     	}
-    	*/
-
-
-//    	String errorMEssage = "";
-//
-//    	//入力チェック
-//    	if(formModel.getCreateUser().isEmpty()) {
-//    		errorMEssage += "作成者は必須項目です。";
-//    	}
-//
-//    	//文字数チェック
-//    	if(formModel.getTitle().length() > 10) {
-//    		errorMEssage += "タイトルは10文字以内で入力してください。";
-//    	}
-//
-//    	//エラーが発生した場合、編集画面を再表示
-//    	if(!errorMEssage.isEmpty()) {
-//            model.addAttribute("errorMessage", errorMEssage);
-//            return "/edit";
-//    	}
-
-
 
     	//更新日を格納
     	if(formModel.getId() == 0) {
@@ -133,9 +110,6 @@ public class BulletinBoardController {
 
     	//メッセージを追加
         model.addAttribute("message", "id:" + ret.getId() + " 「" + ret.getTitle() + "」 を登録しました");
-//    	session.setAttribute("data", "id:" + ret.getId() + " 「" + ret.getTitle() + "」 を登録しました");
-//        sessionSample.setMsg("id:" + ret.getId() + " 「" + ret.getTitle() + "」 を登録しました");
-
 
     	//トップページに遷移する
     	return "forward:/";
@@ -183,9 +157,4 @@ public class BulletinBoardController {
     	return "forward:/";
     }
 
-
-    @RequestMapping("/init")
-    private String init() {
-        return "index";
-    }
 }

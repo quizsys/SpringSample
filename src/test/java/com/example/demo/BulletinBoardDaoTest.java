@@ -20,66 +20,80 @@ public class BulletinBoardDaoTest {
 
 
 
-    //期待値： id=1のデータが取得できること & 全項目が期待値通りであること
     @Test
-    public void test_findById_1() {
+    public void TC1_findByIdのテスト_idが1のデータが取得できること() {
 
-    	//データ取得
+    	// STEP1(given): 期待値を設定する
+    	BulletinBoardDto expected = new BulletinBoardDto();
+    	expected.setId(1);
+    	expected.setCreateDate(LocalDate.of(2020, 11, 9));
+    	expected.setTitle("aaaaaaa");
+    	expected.setContent("11");
+    	expected.setCreateUser("User1");
+    	expected.setDeleteFlg(false);
+    	expected.setUpdateDate(LocalDate.of(2020, 11, 9));
+
+        // STEP2(when): 試験実施
     	BulletinBoardDto actual = dao.findById(1);
 
-    	//期待値のチェック
-        assertThat(actual.getId(), is(1));
-        assertThat(actual.getCreateDate(), is(LocalDate.of(2020, 11, 9)));
-        assertThat(actual.getTitle(), is("aaaaaaa"));
-        assertThat(actual.getContent(), is("11"));
-        assertThat(actual.getCreateUser(), is("User1"));
-        assertThat(actual.isDeleteFlg(), is(false));
-        assertThat(actual.getUpdateDate(), is(LocalDate.of(2020, 11, 9)));
+        //　STEP3(then): 期待値のチェック
+        assertThat(actual.getId(),         is(expected.getId()));
+        assertThat(actual.getCreateDate(), is(expected.getCreateDate()));
+        assertThat(actual.getTitle(),      is(expected.getTitle()));
+        assertThat(actual.getContent(),    is(expected.getContent()));
+        assertThat(actual.getCreateUser(), is(expected.getCreateUser()));
+        assertThat(actual.isDeleteFlg(),   is(expected.isDeleteFlg()));
+        assertThat(actual.getUpdateDate(), is(expected.getUpdateDate()));
 
     }
 
-    //期待値： deleteFlg=falseのデータが取得できること
     @Test
-    public void test_findByDeleteFlg_false() {
+    public void TC2_findByDeleteFlgのテスト_deleteFlgがfalseのデータが取得できること() {
 
-    	//データ取得
+    	// STEP1(given): 期待値を設定する
+    	BulletinBoardDto expected = new BulletinBoardDto();
+    	expected.setId(1);
+
+        // STEP2(when): 試験実施
     	List<BulletinBoardDto> actual = dao.findByDeleteFlg(false);
 
-    	//期待値のチェック
-    	assertThat(actual.get(0).getId(), is(1));
-        assertThat(actual.get(0).getCreateUser(), is("User1"));
+        //　STEP3(then): 期待値のチェック
+    	assertThat(actual.get(0).getId(), is(expected.getId()));
+
     }
 
-    //期待値： deleteFlg=trueのデータが取得できること
     @Test
-    public void test_findByDeleteFlg_true() {
+    public void TC3_findByDeleteFlgのテスト_deleteFlgがtrueのデータが取得できること() {
 
-    	//データ取得
+    	// STEP1(given): 期待値を設定する
+    	BulletinBoardDto expected = new BulletinBoardDto();
+    	expected.setId(2);
+
+        // STEP2(when): 試験実施
     	List<BulletinBoardDto> actual = dao.findByDeleteFlg(true);
 
-    	//期待値のチェック
-    	assertThat(actual.get(0).getId(), is(2));
-        assertThat(actual.get(0).getCreateUser(), is("User2"));
-
+        //　STEP3(then): 期待値のチェック
+    	assertThat(actual.get(0).getId(), is(expected.getId()));
 
     }
 
-    //期待値： deleteFlgを更新できること
     @Test
-    public void test_updateDeleteFlg_1_true() {
+    public void TC4_updateDeleteFlgのテスト_deleteFlgをtrueに更新できること() {
 
-    	//データ更新
+    	// STEP1(given): 期待値を設定する
+    	BulletinBoardDto expected = new BulletinBoardDto();
+    	expected.setDeleteFlg(true);
+
+        // STEP2(when): 試験実施
     	dao.updateDeleteFlg(1, true);
 
     	//更新後のデータを取得
     	BulletinBoardDto actual = dao.findById(1);
 
-    	//期待値のチェック
-        assertThat(actual.isDeleteFlg(), is(true));
+        //　STEP3(then): 期待値のチェック
+        assertThat(actual.isDeleteFlg(), is(expected.isDeleteFlg()));
 
     }
-
-
 
 
 }
