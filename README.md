@@ -2,7 +2,7 @@
 
 ### 構成
 ```
-SpringSample
+SpringSample2
 ├─build.gradle ★ビルドに必要な情報を記載
 │
 └─src
