@@ -1,6 +1,6 @@
 # SpringSample
 
-### 構成
+### 構成a
 ```
 SpringSample
 ├─build.gradle ★ビルドに必要な情報を記載
