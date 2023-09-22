@@ -1,7 +1,7 @@
 # SpringSample
 
 SpringBootのサンプルです。
-aaaa
+aaaaa
 
 ### 構成
 ```
